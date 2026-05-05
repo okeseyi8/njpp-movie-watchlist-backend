@@ -1,10 +1,10 @@
 import express from "express";
 import moviesRoutes from "./routes/moviesRoutes.js";
 import { config } from "dotenv";
-import { connectDb, disconnectDb } from "./config/db.js";
+import { connectDB, disconnectDB } from "./config/db.js";
 
 config();
-connectDb();
+connectDB();
 const app = express();
 const PORT = 5001;
 
@@ -23,21 +23,21 @@ app.listen(PORT, () => {
 process.on("unhandledRejection", (err) => {
   console.error("Unhandled Rejection", err);
   server.close(async () => {
-    await disconnectDb();
+    await disconnectDB();
     process.exit(1);
   });
 });
 process.on("uncaughtException", async (err) => {
   console.error("Uncaught Exception", err);
  
-    await disconnectDb();
+    await disconnectDB();
     process.exit(1);
 
 });
 process.on("SIGTERM", async() => {
   console.error("SIGTERM received, shutting down gracefully");
   server.close(async () => {
-    await disconnectDb();
+    await disconnectDB();
     process.exit(0);
   });
 });
